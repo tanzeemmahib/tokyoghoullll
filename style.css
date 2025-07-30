@@ -53,10 +53,14 @@ body {
 }
 
 #butterfly {
-  position: absolute; bottom: 23vh; right: 17vw; width: 90px; z-index: 7;
-  filter: drop-shadow(0 0 24px #535cf6) drop-shadow(0 0 34px #e62371);
-  animation: float 5s infinite, glitch-butterfly 1.8s infinite alternate;
-  transition: filter 0.5s ease;
+  position: absolute;
+  bottom: 23vh;
+  right: 17vw;
+  width: 90px;
+  z-index: 10; /* in front of flower */
+  filter: drop-shadow(0 0 20px #401a6b) drop-shadow(0 0 20px #5e345b) brightness(0.8);
+  transition: filter 0.5s ease, left 1s cubic-bezier(0.77,0,0.175,1), top 1s cubic-bezier(0.77,0,0.175,1);
+  animation: none !important; /* removed all butterfly animations */
 }
 
 @keyframes float {
@@ -239,21 +243,31 @@ body {
 /* Big right-side spider lily styles */
 #spiderlily-large {
   position: fixed;
-  bottom: 12vh;
+  bottom: 0; /* touch the ground */
   right: 4vw;
-  width: 160px; /* large size */
-  filter: drop-shadow(0 0 36px #e62371) blur(0.5px);
-  z-index: 10;
+  width: 220px; /* larger size */
+  filter: drop-shadow(0 0 18px #b03a4a) blur(0.4px); /* dim warm glow */
+  z-index: 9; /* below butterfly */
   pointer-events: none;
   transition: filter 0.5s ease;
 }
 
 #spiderlily-large.glow {
-  animation: glow 1.5s infinite alternate;
-  filter: drop-shadow(0 0 60px #fff) drop-shadow(0 0 80px #e62371);
+  filter: drop-shadow(0 0 30px #8a2f39) blur(0.5px); /* slightly stronger dim glow */
+  animation: none;
 }
 
-#butterfly.glow {
-  filter: drop-shadow(0 0 32px #fff) drop-shadow(0 0 24px #fa4af9) brightness(1.2);
-  transition: filter 0.5s ease;
+/* Butterfly styles with dim steady glow and no animation */
+#butterfly.glow, #butterfly {
+  filter: drop-shadow(0 0 20px #401a6b) drop-shadow(0 0 20px #5e345b) brightness(0.8);
+  transition: filter 0.5s ease, left 1s cubic-bezier(0.77,0,0.175,1), top 1s cubic-bezier(0.77,0,0.175,1);
+  animation: none !important;
+}
+
+#butterfly {
+  position: absolute;
+  bottom: 23vh;
+  right: 17vw;
+  width: 90px;
+  z-index: 10; /* in front of flower */
 }
