@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Consume Lyric Visualizer – Tokyo Ghoul Theme</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Unica+One&family=Noto+Sans+JP:wght@700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div id="credit-banner">coded by @tzmmb on insta</div>
+  
+  <video id="bg-video" src="public/tokyoghoul.mp4" loop muted></video>
+  <div id="dark-overlay"></div>
+
+  <div id="kanji-stamp">喰種</div>
+
+  <div id="cover-art-container">
+    <img id="cover-art" src="public/cover.jpg" alt="Cover Art">
+    <div id="cover-art-text">
+      <span id="main-title">CONSUME</span>
+      <span id="subtitle">Chase Atlantic</span>
+    </div>
+  </div>
+
+  <div id="lyric-container">
+    <div id="current-lyric"></div>
+  </div>
+
+  <img id="butterfly" src="public/butterfly.png" alt="Butterfly">
+  <img id="spiderlily-large" src="public/spiderlily.png" alt="Spider Lily"> <!-- NEW: The big right-side lily -->
+
+  <div id="spiderlilies"></div>
+  <div id="mist"></div>
+
+  <div id="custom-controls">
+    <button id="skip-back">«</button>
+    <button id="play-pause">►</button>
+    <button id="skip-forward">»</button>
+    <input type="range" id="seek-bar" min="0" max="100" value="0">
+    <input type="range" id="volume" min="0" max="1" step="0.01" value="0.8">
+  </div>
+
+  <audio id="audio" src="public/consume.mp3"></audio>
+  <script src="script.js"></script>
+</body>
+</html>
