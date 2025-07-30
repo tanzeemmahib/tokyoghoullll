@@ -88,17 +88,34 @@ function updateLyric() {
   if (!lyrics.length) return;
 
   const t = audio.currentTime;
-  // Find index of current lyric based on current time
   let idx = lyrics.findIndex((l, i) =>
     i === lyrics.length - 1 || (t >= l.time && t < lyrics[i + 1].time)
   );
 
   if (idx !== lastLyricIdx) {
-    // Fade out then change text then fade in (glitch effect)
     lyricDiv.style.opacity = 0;
     setTimeout(() => {
-      lyricDiv.textContent = (lyrics[idx] && lyrics[idx].text) || '';
+      const text = (lyrics[idx] && lyrics[idx].text) || '';
+      // Wrap each letter in a span with class 'letter'
+      lyricDiv.innerHTML = text.split('').map(letter =>
+        `<span class="letter">${letter === ' ' ? '&nbsp;' : letter}</span>`
+      ).join('');
       lyricDiv.style.opacity = 1;
+
+      // Animate letters with blood splatter reveal using anime.js
+      anime.timeline()
+        .add({
+          targets: '.letter',
+          opacity: [0, 1],
+          filter: [
+            'drop-shadow(0 0 12px crimson) blur(4px)',  // start blurry blood shadow
+            'drop-shadow(0 0 0 crimson) blur(0)'         // clear to crisp but red glow
+          ],
+          translateY: [30, 0], // fall upward effect
+          easing: 'easeOutQuart',
+          duration: 600,
+          delay: anime.stagger(80),
+        });
     }, 90);
     lastLyricIdx = idx;
   }
