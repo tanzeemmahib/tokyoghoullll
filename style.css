@@ -60,7 +60,7 @@ body {
   z-index: 10; /* in front of flower */
   filter: drop-shadow(0 0 20px #401a6b) drop-shadow(0 0 20px #5e345b) brightness(0.8);
   transition: filter 0.5s ease, left 1s cubic-bezier(0.77,0,0.175,1), top 1s cubic-bezier(0.77,0,0.175,1);
-  animation: none !important; /* removed all butterfly animations */
+  animation: none !important; /* Removed all butterfly animations */
 }
 
 @keyframes float {
