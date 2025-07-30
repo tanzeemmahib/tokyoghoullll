@@ -141,16 +141,14 @@ audio.addEventListener('timeupdate', () => {
     audio.currentTime >= audio.duration / 2
   ) {
     landingDone = true;
-    // Find large lily position
+
     const lilyRect = spiderlilyLarge.getBoundingClientRect();
     const lilyX = lilyRect.left + lilyRect.width / 2;
     const lilyY = lilyRect.top + lilyRect.height * 0.23;
 
-    // Scroll offsets for proper positioning
     const pageX = lilyX + window.scrollX;
     const pageY = lilyY + window.scrollY;
 
-    // Center butterfly
     const butterflyOffsetX = butterfly.offsetWidth / 2;
     const butterflyOffsetY = butterfly.offsetHeight / 2;
 
@@ -158,10 +156,10 @@ audio.addEventListener('timeupdate', () => {
     butterfly.style.left = (pageX - butterflyOffsetX) + 'px';
     butterfly.style.top = (pageY - butterflyOffsetY) + 'px';
 
-    // Add glowing classes
+    // Add glowing classes after landing animation
     setTimeout(() => {
       butterfly.classList.add('glow');
       spiderlilyLarge.classList.add('glow');
-    }, 800); // glow slightly after the landing animation
+    }, 800);
   }
 });
