@@ -56,6 +56,7 @@ body {
   position: absolute; bottom: 23vh; right: 17vw; width: 90px; z-index: 7;
   filter: drop-shadow(0 0 24px #535cf6) drop-shadow(0 0 34px #e62371);
   animation: float 5s infinite, glitch-butterfly 1.8s infinite alternate;
+  transition: filter 0.5s ease;
 }
 
 @keyframes float {
@@ -233,4 +234,26 @@ body {
   user-select: none;
   pointer-events: none;
   letter-spacing: 0.2em;
+}
+
+/* Big right-side spider lily styles */
+#spiderlily-large {
+  position: fixed;
+  bottom: 12vh;
+  right: 4vw;
+  width: 160px; /* large size */
+  filter: drop-shadow(0 0 36px #e62371) blur(0.5px);
+  z-index: 10;
+  pointer-events: none;
+  transition: filter 0.5s ease;
+}
+
+#spiderlily-large.glow {
+  animation: glow 1.5s infinite alternate;
+  filter: drop-shadow(0 0 60px #fff) drop-shadow(0 0 80px #e62371);
+}
+
+#butterfly.glow {
+  filter: drop-shadow(0 0 32px #fff) drop-shadow(0 0 24px #fa4af9) brightness(1.2);
+  transition: filter 0.5s ease;
 }
