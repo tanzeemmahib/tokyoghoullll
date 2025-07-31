@@ -24,7 +24,6 @@ const eyeLid = document.getElementById('eye-lid');
 
 let isPlaying = false;
 
-// Sync video playback with audio
 audio.onplay = () => {
   isPlaying = true;
   video.currentTime = audio.currentTime;
@@ -37,7 +36,6 @@ audio.onpause = () => {
 };
 
 audio.ontimeupdate = () => {
-  // Sync video time with audio currentTime, adjust if out of sync by >0.2s
   if (Math.abs(video.currentTime - audio.currentTime) > 0.2) {
     video.currentTime = audio.currentTime % video.duration;
   }
@@ -46,13 +44,11 @@ audio.ontimeupdate = () => {
   seekBar.value = (audio.currentTime / audio.duration) * 100 || 0;
 };
 
-// Seek bar input changes audio current time
 seekBar.addEventListener('input', () => {
   const pct = seekBar.value / 100;
   audio.currentTime = pct * audio.duration;
 });
 
-// Play/pause toggle button
 playPauseBtn.onclick = () => {
   if (audio.paused) {
     audio.play();
@@ -63,44 +59,36 @@ playPauseBtn.onclick = () => {
   }
 };
 
-// Skip backward 5 seconds
 skipBackBtn.onclick = () => {
   audio.currentTime = Math.max(0, audio.currentTime - 5);
 };
 
-// Skip forward 5 seconds
 skipForwardBtn.onclick = () => {
   audio.currentTime = Math.min(audio.duration, audio.currentTime + 5);
 };
 
-// Volume control
 volumeBar.addEventListener('input', () => {
   audio.volume = volumeBar.value;
 });
 
-// When audio ends, reset UI and pause video
 audio.onended = () => {
   audio.currentTime = 0;
   playPauseBtn.textContent = '►';
   video.pause();
 };
 
-// Lyric update helper variables
 let lastLyricIdx = -1;
 
-// Move pupil horizontally according to animation progress (0 to 1)
 function updatePupilPosition(progress) {
   const clamped = Math.min(Math.max(progress, 0), 1);
-  // Map progress to % left in eye container (35% = left, 65% = right)
   const leftMin = 35;
   const leftMax = 65;
   const posLeft = leftMin + (leftMax - leftMin) * clamped;
 
   pupil.style.left = `${posLeft}%`;
-  pupil.style.top = `50%`;
+  pupil.style.top = '50%';
 }
 
-// Animate lyric text with blood splatter reveal and update pupil position left to right
 function animateLyricsWithPupilTracking(text) {
   lyricDiv.innerHTML = text.split('').map(letter =>
     `<span class="letter">${letter === ' ' ? '&nbsp;' : letter}</span>`
@@ -121,13 +109,12 @@ function animateLyricsWithPupilTracking(text) {
       duration: 600,
       delay: anime.stagger(80),
       update: anim => {
-        const progress = anim.progress / 100; // 0 to 1
+        const progress = anim.progress / 100;
         updatePupilPosition(progress);
       }
     });
 }
 
-// Update current lyric line based on audio time
 function updateLyric() {
   if (!lyrics.length) return;
 
@@ -149,7 +136,6 @@ function updateLyric() {
   }
 }
 
-// Ghoul Eye blinking animation
 function blink() {
   eyeLid.style.display = 'block';
   eyeLid.style.animation = 'blink 0.33s cubic-bezier(.71,1.55,.45,0.91)';
@@ -159,12 +145,10 @@ function blink() {
   }, 330);
 }
 
-// Auto blink every 5 seconds
 setInterval(() => {
   blink();
 }, 5000);
 
-// Animate spider lilies on the ground
 const spiderlilyDiv = document.getElementById('spiderlilies');
 if (spiderlilyDiv) {
   for (let i = 0; i < 13; i++) {
@@ -178,7 +162,6 @@ if (spiderlilyDiv) {
   }
 }
 
-// Butterfly follow & landing feature
 const butterfly = document.getElementById('butterfly');
 const spiderlilyLarge = document.getElementById('spiderlily-large');
 
