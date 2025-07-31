@@ -6,7 +6,7 @@
   <link rel="stylesheet" href="style.css">
   <link href="https://fonts.googleapis.com/css2?family=Unica+One&family=Noto+Sans+JP:wght@700&display=swap" rel="stylesheet">
   
-  <!-- Anime.js for lyric blood splatter reveal animation -->
+  <!-- Anime.js for lyric blood splatter and ink wash animation -->
   <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" defer></script>
 </head>
 <body>
@@ -26,6 +26,8 @@
   </div>
 
   <div id="lyric-container">
+    <!-- The ink wash overlay sits above the lyric and is animated in JS -->
+    <div id="ink-wash"></div>
     <div id="current-lyric"></div>
   </div>
 
