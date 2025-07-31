@@ -27,10 +27,30 @@ body {
   user-select: none;
 }
 
+/* Make lyric container relative for ink wash positioning */
 #lyric-container {
-  position: absolute; top: 40vh; width: 100vw; z-index: 6;
+  position: relative;
+  top: 40vh;
+  width: 100vw;
+  z-index: 6;
   text-align: center;
   pointer-events: none;
+}
+
+/* Ink wash overlay style */
+#ink-wash {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 0; /* animated via JS */
+  height: 180px; /* adjust if lyric size changes */
+  background: radial-gradient(circle at center, #1a0b16 80%, #49101c 100%);
+  opacity: 0.8;
+  border-radius: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  z-index: 15;
+  pointer-events: none;
+  transition: none; /* JS will handle smooth transitions */
 }
 
 #current-lyric {
@@ -52,6 +72,15 @@ body {
   65% { opacity: 0.9;}
 }
 
+/* Blood splatter letter style */
+#current-lyric .letter {
+  display: inline-block;
+  opacity: 0;
+  color: #ff0033; /* blood red */
+  text-shadow: 0 0 6px rgba(255, 0, 51, 0.8);
+}
+
+/* Butterfly styling - in front of flower */
 #butterfly {
   position: absolute;
   bottom: 23vh;
@@ -60,9 +89,10 @@ body {
   z-index: 10; /* in front of flower */
   filter: drop-shadow(0 0 20px #401a6b) drop-shadow(0 0 20px #5e345b) brightness(0.8);
   transition: filter 0.5s ease, left 1s cubic-bezier(0.77,0,0.175,1), top 1s cubic-bezier(0.77,0,0.175,1);
-  animation: none !important; /* Removed all butterfly animations */
+  animation: none !important; /* no floating or glitch animation */
 }
 
+/* Old float and glitch animations (unused now) */
 @keyframes float {
   0%,100% { transform: translateY(0);}
   50% { transform: translateY(-36px);}
@@ -257,17 +287,9 @@ body {
   animation: none;
 }
 
-/* Butterfly styles with dim steady glow and no animation */
-#butterfly.glow, #butterfly {
-  filter: drop-shadow(0 0 20px #401a6b) drop-shadow(0 0 20px #5e345b) brightness(0.8);
-  transition: filter 0.5s ease, left 1s cubic-bezier(0.77,0,0.175,1), top 1s cubic-bezier(0.77,0,0.175,1);
-  animation: none !important;
-}
-
-#butterfly {
-  position: absolute;
-  bottom: 23vh;
-  right: 17vw;
-  width: 90px;
-  z-index: 10; /* in front of flower */
+/* Butterfly glow style */
+#butterfly.glow {
+  filter: drop-shadow(0 0 24px #5e345b) drop-shadow(0 0 24px #401a6b) brightness(0.85);
+  animation: none;
+  transition: filter 0.5s ease;
 }
