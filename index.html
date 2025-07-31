@@ -12,32 +12,12 @@
 <body>
 <div id="credit-banner">coded by @tzmmb on insta</div>
 
-<!-- Ghoul Eye container with SVG kakugan eye -->
-<div id="ghoul-eye" style="position: fixed; top: 3.5rem; left: 50%; transform: translateX(-50%); width: 82px; height: 52px; z-index: 55; pointer-events: none; overflow: visible; filter: drop-shadow(0 0 6px #ff0033cc);">
-  <svg id="ghoul-svg-eye" viewBox="0 0 100 60" width="82" height="52" xmlns="http://www.w3.org/2000/svg" style="overflow: visible;">
-    <!-- Black sclera background -->
-    <ellipse cx="50" cy="30" rx="48" ry="28" fill="#1a0707" />
-    
-    <!-- Red iris with gradient -->
-    <defs>
-      <radialGradient id="iris-gradient" cx="50%" cy="50%" r="50%">
-        <stop offset="40%" stop-color="#ff0033"/>
-        <stop offset="60%" stop-color="#990022"/>
-        <stop offset="100%" stop-color="#220000"/>
-      </radialGradient>
-      <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
-        <feDropShadow dx="0" dy="0" stdDeviation="4" flood-color="#ff0033" flood-opacity="0.8"/>
-      </filter>
-      <filter id="pupil-glow" x="-50%" y="-50%" width="200%" height="200%">
-        <feDropShadow dx="0" dy="0" stdDeviation="2" flood-color="#ff0033" flood-opacity="0.5"/>
-      </filter>
-    </defs>
-    
-    <ellipse id="iris" cx="50" cy="30" rx="20" ry="20" fill="url(#iris-gradient)" filter="url(#glow)"/>
-    
-    <!-- Pupil that moves horizontally -->
-    <circle id="pupil" cx="50" cy="30" r="8" fill="black" filter="url(#pupil-glow)" />
-  </svg>
+<!-- Ghoul Eye HTML (under your credit banner) -->
+<div id="ghoul-eye">
+  <div id="eye-sclera">
+    <div id="eye-lid"></div>
+    <div id="eye-pupil"></div>
+  </div>
 </div>
 
 <video id="bg-video" src="public/tokyoghoul.mp4" loop muted></video>
