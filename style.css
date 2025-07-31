@@ -1,295 +1,273 @@
 body {
-  background: linear-gradient(135deg, #1a0b16 0%, #49091c 100%);
-  color: #e62371;
-  font-family: 'Unica One', 'Noto Sans JP', sans-serif;
-  margin: 0;
-  overflow: hidden;
+background: linear-gradient(135deg, #1a0b16 0%, #49091c 100%);
+color: #e62371;
+font-family: 'Unica One', 'Noto Sans JP', sans-serif;
+margin: 0;
+overflow: hidden;
 }
 
 #bg-video {
-  position: fixed;
-  top: 0; left: 0; width: 100vw; height: 100vh;
-  object-fit: cover;
-  z-index: 0;
+position: fixed;
+top: 0; left: 0; width: 100vw; height: 100vh;
+object-fit: cover;
+z-index: 0;
 }
 
 #kanji-stamp {
-  position: absolute;
-  top: 3vw;
-  right: 3vw;
-  font-size: 68px;
-  color: #e6237170;
-  font-family: 'Noto Sans JP', sans-serif;
-  letter-spacing: 0.3em;
-  filter: blur(1.8px);
-  z-index: 2;
-  pointer-events: none;
-  user-select: none;
+position: absolute;
+top: 3vw;
+right: 3vw;
+font-size: 68px;
+color: #e6237170;
+font-family: 'Noto Sans JP', sans-serif;
+letter-spacing: 0.3em;
+filter: blur(1.8px);
+z-index: 2;
+pointer-events: none;
+user-select: none;
 }
 
-/* Make lyric container relative for ink wash positioning */
 #lyric-container {
-  position: relative;
-  top: 40vh;
-  width: 100vw;
-  z-index: 6;
-  text-align: center;
-  pointer-events: none;
-}
-
-/* Ink wash overlay style */
-#ink-wash {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 0; /* animated via JS */
-  height: 180px; /* adjust if lyric size changes */
-  background: radial-gradient(circle at center, #1a0b16 80%, #49101c 100%);
-  opacity: 0.8;
-  border-radius: 50%;
-  transform: translate(-50%, -50%) scale(0);
-  z-index: 15;
-  pointer-events: none;
-  transition: none; /* JS will handle smooth transitions */
+position: absolute; top: 40vh; width: 100vw; z-index: 6;
+text-align: center;
+pointer-events: none;
 }
 
 #current-lyric {
-  font-size: 2.7rem;
-  font-weight: 700;
-  font-family: 'Unica One', 'Noto Sans JP', sans-serif;
-  letter-spacing: 0.1em;
-  color: #fff;
-  text-shadow: 0 0 14px #e62371, 0 0 32px #fff, 0 0 8px #840035;
-  transition: opacity 0.15s, filter 0.2s;
-  opacity: 1;
-  animation: lyric-glitch 2s infinite alternate;
+font-size: 2.7rem;
+font-weight: 700;
+font-family: 'Unica One', 'Noto Sans JP', sans-serif;
+letter-spacing: 0.1em;
+color: #fff;
+text-shadow: 0 0 14px #e62371, 0 0 32px #fff, 0 0 8px #840035;
+transition: opacity 0.15s, filter 0.2s;
+opacity: 1;
+animation: lyric-glitch 2s infinite alternate;
 }
 
 @keyframes lyric-glitch {
-  0%,100% { transform: skewX(0deg);}
-  12% { transform: skewX(8deg);}
-  54% { transform: skewX(-4deg);}
-  65% { opacity: 0.9;}
+0%,100% { transform: skewX(0deg);}
+12% { transform: skewX(8deg);}
+54% { transform: skewX(-4deg);}
+65% { opacity: 0.9;}
 }
 
-/* Blood splatter letter style */
-#current-lyric .letter {
-  display: inline-block;
-  opacity: 0;
-  color: #ff0033; /* blood red */
-  text-shadow: 0 0 6px rgba(255, 0, 51, 0.8);
-}
-
-/* Butterfly styling - in front of flower */
 #butterfly {
-  position: absolute;
-  bottom: 23vh;
-  right: 17vw;
-  width: 90px;
-  z-index: 10; /* in front of flower */
-  filter: drop-shadow(0 0 20px #401a6b) drop-shadow(0 0 20px #5e345b) brightness(0.8);
-  transition: filter 0.5s ease, left 1s cubic-bezier(0.77,0,0.175,1), top 1s cubic-bezier(0.77,0,0.175,1);
-  animation: none !important; /* no floating or glitch animation */
+position: absolute;
+bottom: 23vh;
+right: 17vw;
+width: 90px;
+z-index: 10; /* in front of flower */
+filter: drop-shadow(0 0 20px #401a6b) drop-shadow(0 0 20px #5e345b) brightness(0.8);
+transition: filter 0.5s ease, left 1s cubic-bezier(0.77,0,0.175,1), top 1s cubic-bezier(0.77,0,0.175,1);
+animation: none !important; /* Removed all butterfly animations */
 }
 
-/* Old float and glitch animations (unused now) */
 @keyframes float {
-  0%,100% { transform: translateY(0);}
-  50% { transform: translateY(-36px);}
+0%,100% { transform: translateY(0);}
+50% { transform: translateY(-36px);}
 }
 
 @keyframes glitch-butterfly {
-  0%,100% { filter: none;}
-  48% { filter: blur(1px) brightness(1.2) hue-rotate(7deg);}
+0%,100% { filter: none;}
+48% { filter: blur(1px) brightness(1.2) hue-rotate(7deg);}
 }
 
 #cover-art-container {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  position: absolute;
-  top: 4vw;
-  left: 4vw;
-  z-index: 8;
-  gap: 18px;
+display: flex;
+flex-direction: row;
+align-items: center;
+position: absolute;
+top: 4vw;
+left: 4vw;
+z-index: 8;
+gap: 18px;
 }
 
 #cover-art {
-  width: 110px;
-  border-radius: 16px;
-  box-shadow: 0 0 24px #fa3535, 0 0 24px #fff2;
-  object-fit: cover;
+width: 110px;
+border-radius: 16px;
+box-shadow: 0 0 24px #fa3535, 0 0 24px #fff2;
+object-fit: cover;
 }
 
 #cover-art-text {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 2px;
+display: flex;
+flex-direction: column;
+justify-content: center;
+gap: 2px;
 }
 
 #main-title {
-  font-family: 'Unica One', 'Noto Sans JP', sans-serif;
-  color: #fff;
-  font-size: 1.13rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-shadow: 0 0 12px #e62371, 0 1px 6px #160916;
-  text-transform: uppercase;
-  white-space: nowrap;
+font-family: 'Unica One', 'Noto Sans JP', sans-serif;
+color: #fff;
+font-size: 1.13rem;
+font-weight: 700;
+letter-spacing: 0.08em;
+text-shadow: 0 0 12px #e62371, 0 1px 6px #160916;
+text-transform: uppercase;
+white-space: nowrap;
 }
 
 #subtitle {
-  font-family: 'Unica One', 'Noto Sans JP', sans-serif;
-  color: #f2c6d0;
-  font-size: 0.93rem;
-  letter-spacing: 0.08em;
-  margin-top: 2px;
-  text-shadow: 0 0 7px #e6237188, 0 1px 3px #160916;
+font-family: 'Unica One', 'Noto Sans JP', sans-serif;
+color: #f2c6d0;
+font-size: 0.93rem;
+letter-spacing: 0.08em;
+margin-top: 2px;
+text-shadow: 0 0 7px #e6237188, 0 1px 3px #160916;
 }
 
 #spiderlilies {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100vw;
-  height: 14vh;
-  z-index: 6;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  pointer-events: none;
+position: absolute;
+bottom: 0;
+left: 0;
+width: 100vw;
+height: 14vh;
+z-index: 6;
+display: flex;
+justify-content: space-between;
+align-items: flex-end;
+pointer-events: none;
 }
 
 #spiderlilies img {
-  height: 11vh;
-  min-width: 56px;
-  filter: drop-shadow(0 0 36px #e62371) blur(0.5px);
-  animation: glow 1.5s infinite alternate;
+height: 11vh;
+min-width: 56px;
+filter: drop-shadow(0 0 36px #e62371) blur(0.5px);
+animation: glow 1.5s infinite alternate;
 }
 
 @keyframes glow {
-  from { filter: drop-shadow(0 0 8px #e62371);}
-  to { filter: drop-shadow(0 0 30px #fff);}
+from { filter: drop-shadow(0 0 8px #e62371);}
+to { filter: drop-shadow(0 0 30px #fff);}
 }
 
 #mist {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100vw;
-  height: 22vh;
-  z-index: 7;
-  background: repeating-linear-gradient(180deg, rgba(255,255,255,0.06) 0 1vw, transparent 1vw 100%);
-  pointer-events: none;
-  opacity: 0.17;
-  mix-blend-mode: lighten;
-  filter: blur(14px);
+position: absolute;
+bottom: 0;
+left: 0;
+width: 100vw;
+height: 22vh;
+z-index: 7;
+background: repeating-linear-gradient(180deg, rgba(255,255,255,0.06) 0 1vw, transparent 1vw 100%);
+pointer-events: none;
+opacity: 0.17;
+mix-blend-mode: lighten;
+filter: blur(14px);
 }
 
 #custom-controls {
-  position: fixed;
-  bottom: 2vw;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  gap: 1.3vw;
-  align-items: center;
-  z-index: 15;
-  padding: 1vw 2vw;
-  border-radius: 26px;
-  background: rgba(10, 10, 20, 0.73);
-  box-shadow: 0 0 28px #53092d;
-  backdrop-filter: blur(10px);
+position: fixed;
+bottom: 2vw;
+left: 50%;
+transform: translateX(-50%);
+display: flex;
+gap: 1.3vw;
+align-items: center;
+z-index: 15;
+padding: 1vw 2vw;
+border-radius: 26px;
+background: rgba(10, 10, 20, 0.73);
+box-shadow: 0 0 28px #53092d;
+backdrop-filter: blur(10px);
 }
 
 #custom-controls button {
-  background: none;
-  border: none;
-  color: #e62371;
-  font-family: inherit;
-  font-size: 1.5em;
-  width: 2em;
-  height: 2em;
-  border-radius: 50%;
-  box-shadow: 0 0 12px #e62371;
-  cursor: pointer;
-  margin: 0 6px;
-  transition: color 0.2s, box-shadow 0.2s;
+background: none;
+border: none;
+color: #e62371;
+font-family: inherit;
+font-size: 1.5em;
+width: 2em;
+height: 2em;
+border-radius: 50%;
+box-shadow: 0 0 12px #e62371;
+cursor: pointer;
+margin: 0 6px;
+transition: color 0.2s, box-shadow 0.2s;
 }
 
 #custom-controls button:active {
-  background: #1a0b16;
+background: #1a0b16;
 }
 
 #custom-controls input[type=range] {
-  accent-color: #e62371;
-  width: 120px;
-  height: 2.5em;
-  background: transparent;
+accent-color: #e62371;
+width: 120px;
+height: 2.5em;
+background: transparent;
 }
 
 @media (max-width: 700px) {
-  #current-lyric {
-    font-size: 1.5rem;
-  }
-  #spiderlilies img {
-    height: 7vw;
-  }
-  #butterfly {
-    width: 48px;
-  }
+#current-lyric {
+font-size: 1.5rem;
+}
+#spiderlilies img {
+height: 7vw;
+}
+#butterfly {
+width: 48px;
+}
 }
 
 /* Dark glass overlay to darken video softly */
 #dark-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.35); /* semi-transparent dark */
-  z-index: 1; /* above video but below other elements */
-  pointer-events: none;
-  backdrop-filter: blur(3px);
+position: fixed;
+top: 0;
+left: 0;
+width: 100vw;
+height: 100vh;
+background: rgba(0, 0, 0, 0.35); /* semi-transparent dark */
+z-index: 1; /* above video but below other elements */
+pointer-events: none;
+backdrop-filter: blur(3px);
 }
 
 /* Credit banner styling */
 #credit-banner {
-  position: fixed;
-  top: 24px;
-  width: 100vw;
-  z-index: 50;
-  font-family: 'Unica One', 'Noto Sans JP', sans-serif;
-  color: #e62371cc;
-  text-align: center;
-  font-size: 1.15rem;
-  text-shadow: 0 0 6px #fff1, 0 0 18px #e6237155;
-  user-select: none;
-  pointer-events: none;
-  letter-spacing: 0.2em;
+position: fixed;
+top: 24px;
+width: 100vw;
+z-index: 50;
+font-family: 'Unica One', 'Noto Sans JP', sans-serif;
+color: #e62371cc;
+text-align: center;
+font-size: 1.15rem;
+text-shadow: 0 0 6px #fff1, 0 0 18px #e6237155;
+user-select: none;
+pointer-events: none;
+letter-spacing: 0.2em;
 }
 
 /* Big right-side spider lily styles */
 #spiderlily-large {
-  position: fixed;
-  bottom: 0; /* touch the ground */
-  right: 4vw;
-  width: 220px; /* larger size */
-  filter: drop-shadow(0 0 18px #b03a4a) blur(0.4px); /* dim warm glow */
-  z-index: 9; /* below butterfly */
-  pointer-events: none;
-  transition: filter 0.5s ease;
+position: fixed;
+bottom: 0; /* touch the ground */
+right: 4vw;
+width: 220px; /* larger size */
+filter: drop-shadow(0 0 18px #b03a4a) blur(0.4px); /* dim warm glow */
+z-index: 9; /* below butterfly */
+pointer-events: none;
+transition: filter 0.5s ease;
 }
 
 #spiderlily-large.glow {
-  filter: drop-shadow(0 0 30px #8a2f39) blur(0.5px); /* slightly stronger dim glow */
-  animation: none;
+filter: drop-shadow(0 0 30px #8a2f39) blur(0.5px); /* slightly stronger dim glow */
+animation: none;
 }
 
-/* Butterfly glow style */
-#butterfly.glow {
-  filter: drop-shadow(0 0 24px #5e345b) drop-shadow(0 0 24px #401a6b) brightness(0.85);
-  animation: none;
-  transition: filter 0.5s ease;
+/* Butterfly styles with dim steady glow and no animation */
+#butterfly.glow, #butterfly {
+filter: drop-shadow(0 0 20px #401a6b) drop-shadow(0 0 20px #5e345b) brightness(0.8);
+transition: filter 0.5s ease, left 1s cubic-bezier(0.77,0,0.175,1), top 1s cubic-bezier(0.77,0,0.175,1);
+animation: none !important;
+}
+
+#butterfly {
+position: absolute;
+bottom: 23vh;
+right: 17vw;
+width: 90px;
+z-index: 10; /* in front of flower */
 }
