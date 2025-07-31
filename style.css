@@ -210,8 +210,6 @@ body {
     width: 48px;
   }
 }
-
-/* Dark glass overlay to darken video softly */
 #dark-overlay {
   position: fixed;
   top: 0;
@@ -224,7 +222,6 @@ body {
   backdrop-filter: blur(3px);
 }
 
-/* Credit banner styling */
 #credit-banner {
   position: fixed;
   top: 24px;
@@ -240,7 +237,6 @@ body {
   letter-spacing: 0.2em;
 }
 
-/* Big right-side spider lily styles */
 #spiderlily-large {
   position: fixed;
   bottom: 0; /* touch the ground */
@@ -257,7 +253,6 @@ body {
   animation: none;
 }
 
-/* Butterfly styles with dim steady glow and no animation */
 #butterfly.glow, #butterfly {
   filter: drop-shadow(0 0 20px #401a6b) drop-shadow(0 0 20px #5e345b) brightness(0.8);
   transition: filter 0.5s ease, left 1s cubic-bezier(0.77,0,0.175,1), top 1s cubic-bezier(0.77,0,0.175,1);
@@ -271,7 +266,7 @@ body {
   width: 90px;
   z-index: 10; /* in front of flower */
 }
-/* Ghoul Eye Styles */
+
 #ghoul-eye {
   position: fixed;
   top: 3.5rem; /* matches credit banner spacing */
@@ -342,7 +337,6 @@ body {
   52% { filter: drop-shadow(0 0 17px #fe2243bb); }
 }
 
-/* Eyelid styles for blinking */
 #eye-lid {
   position: absolute;
   top: 0;
