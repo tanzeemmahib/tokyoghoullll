@@ -18,12 +18,12 @@ const playPauseBtn = document.getElementById('play-pause');
 const skipBackBtn = document.getElementById('skip-back');
 const skipForwardBtn = document.getElementById('skip-forward');
 
-let isPlaying = false;
-
 // Ghoul eye elements
 const ghoulEye = document.getElementById('ghoul-eye');
 const pupil = document.getElementById('eye-pupil');
 const eyeLid = document.getElementById('eye-lid');
+
+let isPlaying = false;
 
 // Sync video playback with audio
 audio.onplay = () => {
@@ -89,63 +89,57 @@ audio.onended = () => {
 // Lyric update helper variables
 let lastLyricIdx = -1;
 
-// --- Ghoul Eye Pupil Tracking Helper Functions ---
+// Animate pupil according to reveal progress (0 to 1)
+function updatePupilPosition(progress) {
+  // Bound progress 0..1
+  const clamped = Math.min(Math.max(progress, 0), 1);
 
-// Find the current red-highlighted lyric letter or word inside #current-lyric
-function getActiveRedLyric() {
-  return lyricDiv.querySelector('.red, .active');
+  // Move pupil left/right within eye container
+  // We'll map horizontal movement from 35% (left) to 65% (right)
+  const leftMin = 35;
+  const leftMax = 65;
+  const posLeft = leftMin + (leftMax - leftMin) * clamped;
+
+  // Keep vertical center at 50%
+  pupil.style.left = `${posLeft}%`;
+  pupil.style.top = `50%`;
 }
 
-function movePupilToTarget(targetEl) {
-  if (!targetEl) {
-    // Center pupil if no target
-    pupil.style.left = '50%';
-    pupil.style.top = '50%';
-    return;
-  }
-  const eyeRect = ghoulEye.getBoundingClientRect();
-  const pupilMaxX = (eyeRect.width / 2) - (pupil.offsetWidth / 2) - 5;
-  const pupilMaxY = (eyeRect.height / 2) - (pupil.offsetHeight / 2) - 2;
+// Animate lyrics with blood splatter reveal and pupil tracking progress left to right
+function animateLyricsWithPupilTracking(text) {
+  lyricDiv.innerHTML = text.split('').map(letter =>
+    `<span class="letter">${letter === ' ' ? '&nbsp;' : letter}</span>`
+  ).join('');
 
-  const targetRect = targetEl.getBoundingClientRect();
-  const eyeCenterX = eyeRect.left + eyeRect.width / 2;
-  const eyeCenterY = eyeRect.top + eyeRect.height / 2;
-  const targetCenterX = targetRect.left + targetRect.width / 2;
-  const targetCenterY = targetRect.top + targetRect.height / 2;
+  const letters = lyricDiv.querySelectorAll('.letter');
+  const totalLetters = letters.length;
 
-  let dx = targetCenterX - eyeCenterX;
-  let dy = targetCenterY - eyeCenterY;
-  const distance = Math.sqrt(dx * dx + dy * dy);
-  if (distance > 0) {
-    dx = (dx / distance) * pupilMaxX;
-    dy = (dy / distance) * pupilMaxY;
-  }
+  anime.timeline()
+    .add({
+      targets: letters,
+      opacity: [0, 1],
+      filter: [
+        'drop-shadow(0 0 12px crimson) blur(4px)',
+        'drop-shadow(0 0 0 crimson) blur(0)'
+      ],
+      translateY: [30, 0],
+      easing: 'easeOutQuart',
+      duration: 600,
+      delay: anime.stagger(80),
+      update: anim => {
+        // Calculate how many letters are currently visible based on anim progress and delays
+        // Approximate progress as a fraction of animation completion
+        // anim.progress ranges from 0 to 100%
+        const progress = anim.progress / 100;
 
-  const newLeft = 50 + (dx / (eyeRect.width / 2)) * 50;
-  const newTop = 50 + (dy / (eyeRect.height / 2)) * 50;
-
-  pupil.style.left = `${newLeft}%`;
-  pupil.style.top = `${newTop}%`;
+        // Move pupil horizontally based on progress (left to right)
+        // For smoothness, limit to total letter animation time fraction (if any)
+        updatePupilPosition(progress);
+      }
+    });
 }
 
-function updateGhoulEye() {
-  const target = getActiveRedLyric();
-  movePupilToTarget(target);
-}
-
-// --- Ghoul Eye Blinking ---
-
-function blink() {
-  eyeLid.style.display = 'block';
-  eyeLid.style.animation = 'blink 0.33s cubic-bezier(.71,1.55,.45,0.91)';
-  setTimeout(() => {
-    eyeLid.style.animation = '';
-    eyeLid.style.display = 'none';
-  }, 330);
-}
-
-// --- Original updateLyric ---
-
+// Update lyric depending on current audio time
 function updateLyric() {
   if (!lyrics.length) return;
 
@@ -156,52 +150,32 @@ function updateLyric() {
 
   if (idx !== lastLyricIdx) {
     lyricDiv.style.opacity = 0;
+
     setTimeout(() => {
       const text = (lyrics[idx] && lyrics[idx].text) || '';
-      // Wrap each letter in a span with class 'letter'
-      lyricDiv.innerHTML = text.split('').map(letter =>
-        `<span class="letter">${letter === ' ' ? '&nbsp;' : letter}</span>`
-      ).join('');
+      animateLyricsWithPupilTracking(text);
       lyricDiv.style.opacity = 1;
-
-      // Animate letters with blood splatter reveal using anime.js
-      anime.timeline()
-        .add({
-          targets: '.letter',
-          opacity: [0, 1],
-          filter: [
-            'drop-shadow(0 0 12px crimson) blur(4px)', // start blurry blood shadow
-            'drop-shadow(0 0 0 crimson) blur(0)' // clear to crisp but red glow
-          ],
-          translateY: [30, 0], // fall upward effect
-          easing: 'easeOutQuart',
-          duration: 600,
-          delay: anime.stagger(80),
-        });
-
-      // After animation starts, add the .red class to the currently "red" letters
-      // This depends on your animation logic, but here's a sample to mark the first letter as red for demo:
-      // (Modify this part according to your actual blood splatter timing)
-
-      // Simple example: mark first letter red
-      const letters = lyricDiv.querySelectorAll('.letter');
-      letters.forEach(l => l.classList.remove('red'));
-      if (letters.length > 0) {
-        // For demo, mark first letter red, can be dynamic
-        letters[0].classList.add('red');
-      }
-
-      // Update pupil after DOM changes
-      setTimeout(updateGhoulEye, 80);
     }, 90);
     lastLyricIdx = idx;
-  } else {
-    // Update pupil periodically even if lyric not changed (in case .red changes dynamically)
-    updateGhoulEye();
   }
 }
 
-// Animate spider lilies on the ground
+// Ghoul Eye blink animation
+function blink() {
+  eyeLid.style.display = 'block';
+  eyeLid.style.animation = 'blink 0.33s cubic-bezier(.71,1.55,.45,0.91)';
+  setTimeout(() => {
+    eyeLid.style.animation = '';
+    eyeLid.style.display = 'none';
+  }, 330);
+}
+
+// Auto blink every 5 seconds
+setInterval(() => {
+  blink();
+}, 5000);
+
+// Animate spider lilies on the ground (unchanged)
 const spiderlilyDiv = document.getElementById('spiderlilies');
 if (spiderlilyDiv) {
   for (let i = 0; i < 13; i++) {
@@ -215,8 +189,7 @@ if (spiderlilyDiv) {
   }
 }
 
-// --- BUTTERFLY FOLLOW & LANDING FEATURE ---
-
+// Butterfly follow & landing feature (unchanged)
 const butterfly = document.getElementById('butterfly');
 const spiderlilyLarge = document.getElementById('spiderlily-large');
 
@@ -230,7 +203,6 @@ window.addEventListener('mousemove', (e) => {
   butterfly.style.top = (e.clientY - offsetY) + 'px';
 });
 
-// At halfway point, butterfly lands & both glow
 audio.addEventListener('timeupdate', () => {
   if (
     !landingDone &&
@@ -249,19 +221,14 @@ audio.addEventListener('timeupdate', () => {
     const butterflyOffsetX = butterfly.offsetWidth / 2;
     const butterflyOffsetY = butterfly.offsetHeight / 2;
 
-    butterfly.style.transition = 'left 1s cubic-bezier(0.77,0,0.175,1), top 1s cubic-bezier(0.77,0,0.175,1)';
+    butterfly.style.transition =
+      'left 1s cubic-bezier(0.77,0,0.175,1), top 1s cubic-bezier(0.77,0,0.175,1)';
     butterfly.style.left = (pageX - butterflyOffsetX) + 'px';
     butterfly.style.top = (pageY - butterflyOffsetY) + 'px';
 
-    // Add glowing classes after landing animation
     setTimeout(() => {
       butterfly.classList.add('glow');
       spiderlilyLarge.classList.add('glow');
     }, 800);
   }
 });
-
-// --- Ghoul Eye Auto Blink every 5 seconds ---
-setInterval(() => {
-  blink();
-}, 5000);
