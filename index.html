@@ -1,54 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Consume Lyric Visualizer – Tokyo Ghoul Theme</title>
-  <link rel="stylesheet" href="style.css">
-  <link href="https://fonts.googleapis.com/css2?family=Unica+One&family=Noto+Sans+JP:wght@700&display=swap" rel="stylesheet">
-  
-  <!-- Anime.js for lyric blood splatter and ink wash animation -->
-  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" defer></script>
+<meta charset="UTF-8">
+<title>Consume Lyric Visualizer – Tokyo Ghoul Theme</title>
+<link rel="stylesheet" href="style.css">
+<link href="https://fonts.googleapis.com/css2?family=Unica+One&family=Noto+Sans+JP:wght@700&display=swap" rel="stylesheet">
+
+<!-- Anime.js for lyric blood splatter reveal animation -->
+<script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" defer></script>
 </head>
 <body>
-  <div id="credit-banner">coded by @tzmmb on insta</div>
-  
-  <video id="bg-video" src="public/tokyoghoul.mp4" loop muted></video>
-  <div id="dark-overlay"></div>
+<div id="credit-banner">coded by @tzmmb on insta</div>
 
-  <div id="kanji-stamp">喰種</div>
+<video id="bg-video" src="public/tokyoghoul.mp4" loop muted></video>
+<div id="dark-overlay"></div>
 
-  <div id="cover-art-container">
-    <img id="cover-art" src="public/cover.jpg" alt="Cover Art">
-    <div id="cover-art-text">
-      <span id="main-title">CONSUME</span>
-      <span id="subtitle">Chase Atlantic</span>
-    </div>
-  </div>
+<div id="kanji-stamp">喰種</div>
 
-  <div id="lyric-container">
-    <!-- The ink wash overlay sits above the lyric and is animated in JS -->
-    <div id="ink-wash"></div>
-    <div id="current-lyric"></div>
-  </div>
+<div id="cover-art-container">
+<img id="cover-art" src="public/cover.jpg" alt="Cover Art">
+<div id="cover-art-text">
+<span id="main-title">CONSUME</span>
+<span id="subtitle">Chase Atlantic</span>
+</div>
+</div>
 
-  <!-- Butterfly placed to appear in front (z-index controlled in CSS) -->
-  <img id="butterfly" src="public/butterfly.png" alt="Butterfly">
+<div id="lyric-container">
+<div id="current-lyric"></div>
+</div>
 
-  <!-- Big spider lily on the right touching bottom -->
-  <img id="spiderlily-large" src="public/spiderlily.png" alt="Spider Lily">
+<!-- Butterfly placed to appear in front (z-index controlled in CSS) -->
+<img id="butterfly" src="public/butterfly.png" alt="Butterfly">
 
-  <div id="spiderlilies"></div>
-  <div id="mist"></div>
+<!-- Big spider lily on the right touching bottom -->
+<img id="spiderlily-large" src="public/spiderlily.png" alt="Spider Lily">
 
-  <div id="custom-controls">
-    <button id="skip-back">«</button>
-    <button id="play-pause">►</button>
-    <button id="skip-forward">»</button>
-    <input type="range" id="seek-bar" min="0" max="100" value="0">
-    <input type="range" id="volume" min="0" max="1" step="0.01" value="0.8">
-  </div>
+<div id="spiderlilies"></div>
+<div id="mist"></div>
 
-  <audio id="audio" src="public/consume.mp3"></audio>
-  <script src="script.js"></script>
+<div id="custom-controls">
+<button id="skip-back">«</button>
+<button id="play-pause">►</button>
+<button id="skip-forward">»</button>
+<input type="range" id="seek-bar" min="0" max="100" value="0">
+<input type="range" id="volume" min="0" max="1" step="0.01" value="0.8">
+</div>
+
+<audio id="audio" src="public/consume.mp3"></audio>
+<script src="script.js"></script>
 </body>
 </html>
