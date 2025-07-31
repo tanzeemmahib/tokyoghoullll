@@ -19,7 +19,6 @@ const skipBackBtn = document.getElementById('skip-back');
 const skipForwardBtn = document.getElementById('skip-forward');
 
 // Ghoul eye elements
-const ghoulEye = document.getElementById('ghoul-eye');
 const pupil = document.getElementById('eye-pupil');
 const eyeLid = document.getElementById('eye-lid');
 
@@ -89,30 +88,25 @@ audio.onended = () => {
 // Lyric update helper variables
 let lastLyricIdx = -1;
 
-// Animate pupil according to reveal progress (0 to 1)
+// Move pupil horizontally according to animation progress (0 to 1)
 function updatePupilPosition(progress) {
-  // Bound progress 0..1
   const clamped = Math.min(Math.max(progress, 0), 1);
-
-  // Move pupil left/right within eye container
-  // We'll map horizontal movement from 35% (left) to 65% (right)
+  // Map progress to % left in eye container (35% = left, 65% = right)
   const leftMin = 35;
   const leftMax = 65;
   const posLeft = leftMin + (leftMax - leftMin) * clamped;
 
-  // Keep vertical center at 50%
   pupil.style.left = `${posLeft}%`;
   pupil.style.top = `50%`;
 }
 
-// Animate lyrics with blood splatter reveal and pupil tracking progress left to right
+// Animate lyric text with blood splatter reveal and update pupil position left to right
 function animateLyricsWithPupilTracking(text) {
   lyricDiv.innerHTML = text.split('').map(letter =>
     `<span class="letter">${letter === ' ' ? '&nbsp;' : letter}</span>`
   ).join('');
 
   const letters = lyricDiv.querySelectorAll('.letter');
-  const totalLetters = letters.length;
 
   anime.timeline()
     .add({
@@ -127,19 +121,13 @@ function animateLyricsWithPupilTracking(text) {
       duration: 600,
       delay: anime.stagger(80),
       update: anim => {
-        // Calculate how many letters are currently visible based on anim progress and delays
-        // Approximate progress as a fraction of animation completion
-        // anim.progress ranges from 0 to 100%
-        const progress = anim.progress / 100;
-
-        // Move pupil horizontally based on progress (left to right)
-        // For smoothness, limit to total letter animation time fraction (if any)
+        const progress = anim.progress / 100; // 0 to 1
         updatePupilPosition(progress);
       }
     });
 }
 
-// Update lyric depending on current audio time
+// Update current lyric line based on audio time
 function updateLyric() {
   if (!lyrics.length) return;
 
@@ -156,11 +144,12 @@ function updateLyric() {
       animateLyricsWithPupilTracking(text);
       lyricDiv.style.opacity = 1;
     }, 90);
+
     lastLyricIdx = idx;
   }
 }
 
-// Ghoul Eye blink animation
+// Ghoul Eye blinking animation
 function blink() {
   eyeLid.style.display = 'block';
   eyeLid.style.animation = 'blink 0.33s cubic-bezier(.71,1.55,.45,0.91)';
@@ -175,7 +164,7 @@ setInterval(() => {
   blink();
 }, 5000);
 
-// Animate spider lilies on the ground (unchanged)
+// Animate spider lilies on the ground
 const spiderlilyDiv = document.getElementById('spiderlilies');
 if (spiderlilyDiv) {
   for (let i = 0; i < 13; i++) {
@@ -189,7 +178,7 @@ if (spiderlilyDiv) {
   }
 }
 
-// Butterfly follow & landing feature (unchanged)
+// Butterfly follow & landing feature
 const butterfly = document.getElementById('butterfly');
 const spiderlilyLarge = document.getElementById('spiderlily-large');
 
