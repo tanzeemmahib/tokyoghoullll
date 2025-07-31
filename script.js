@@ -12,6 +12,7 @@ fetch('public/lyrics.json')
 const audio = document.getElementById('audio');
 const video = document.getElementById('bg-video');
 const lyricDiv = document.getElementById('current-lyric');
+const inkWash = document.getElementById('ink-wash'); // ink wash overlay element
 const seekBar = document.getElementById('seek-bar');
 const volumeBar = document.getElementById('volume');
 const playPauseBtn = document.getElementById('play-pause');
@@ -93,30 +94,54 @@ function updateLyric() {
   );
 
   if (idx !== lastLyricIdx) {
+    // Start ink wash animation sequence
     lyricDiv.style.opacity = 0;
-    setTimeout(() => {
-      const text = (lyrics[idx] && lyrics[idx].text) || '';
-      // Wrap each letter in a span with class 'letter'
-      lyricDiv.innerHTML = text.split('').map(letter =>
-        `<span class="letter">${letter === ' ' ? '&nbsp;' : letter}</span>`
-      ).join('');
-      lyricDiv.style.opacity = 1;
 
-      // Animate letters with blood splatter reveal using anime.js
-      anime.timeline()
-        .add({
-          targets: '.letter',
-          opacity: [0, 1],
-          filter: [
-            'drop-shadow(0 0 12px crimson) blur(4px)',  // start blurry blood shadow
-            'drop-shadow(0 0 0 crimson) blur(0)'         // clear to crisp but red glow
-          ],
-          translateY: [30, 0], // fall upward effect
-          easing: 'easeOutQuart',
-          duration: 600,
-          delay: anime.stagger(80),
-        });
-    }, 90);
+    // Reset ink wash to starting state (scale 0, width 0, visible)
+    inkWash.style.transition = 'none';
+    inkWash.style.width = '0';
+    inkWash.style.opacity = '0.8';
+    inkWash.style.transform = 'translate(-50%, -50%) scale(0)';
+
+    // Slight delay to ensure transition reset takes effect
+    setTimeout(() => {
+      // Animate ink wash scaling up and expanding width to cover lyric area
+      inkWash.style.transition = 'transform 0.5s cubic-bezier(.5,1.6,.29,.94), width 0.5s cubic-bezier(.5,1.6,.29,.94), opacity 0.5s ease';
+      inkWash.style.width = '400px';  // you may adjust width as needed
+      inkWash.style.transform = 'translate(-50%, -50%) scale(1.1)';
+
+      // After ink wash expands fully, reveal lyrics and run blood splatter animation
+      setTimeout(() => {
+        const text = (lyrics[idx] && lyrics[idx].text) || '';
+        lyricDiv.innerHTML = text.split('').map(letter =>
+          `<span class="letter">${letter === ' ' ? '&nbsp;' : letter}</span>`
+        ).join('');
+        lyricDiv.style.opacity = 1;
+
+        // Blood splatter letter reveal using Anime.js
+        anime.timeline()
+          .add({
+            targets: '.letter',
+            opacity: [0, 1],
+            filter: [
+              'drop-shadow(0 0 12px crimson) blur(4px)',  // start blurry blood shadow
+              'drop-shadow(0 0 0 crimson) blur(0)'         // clear to crisp red glow
+            ],
+            translateY: [30, 0],
+            easing: 'easeOutQuart',
+            duration: 600,
+            delay: anime.stagger(80),
+          });
+
+        // Fade and scale down ink wash overlay after lyric reveal
+        inkWash.style.transition = 'opacity 0.4s cubic-bezier(.5,1.6,.29,.94), transform 0.4s cubic-bezier(.8,-0.2,.29,.94), width 0.4s ease';
+        inkWash.style.opacity = '0';
+        inkWash.style.transform = 'translate(-50%, -50%) scale(0)';
+        inkWash.style.width = '0';
+
+      }, 520);  // This delay matches ink wash expansion duration + a bit for smoothness
+    }, 40);
+
     lastLyricIdx = idx;
   }
 }
