@@ -1,4 +1,3 @@
-// Load lyrics JSON
 let lyrics = [];
 fetch('public/lyrics.json')
   .then(response => response.json())
@@ -17,8 +16,6 @@ const volumeBar = document.getElementById('volume');
 const playPauseBtn = document.getElementById('play-pause');
 const skipBackBtn = document.getElementById('skip-back');
 const skipForwardBtn = document.getElementById('skip-forward');
-
-// Ghoul eye elements
 const pupil = document.getElementById('eye-pupil');
 const eyeLid = document.getElementById('eye-lid');
 
